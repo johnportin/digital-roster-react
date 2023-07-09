@@ -6,24 +6,24 @@ This is a roster meant to make taking attendance in a course easy. This is a rec
 
 ## Project Requirements
 
-- [x] Use React
-- [x] Use a database
+- [] Use React
+- [] Use a database
 
 ### Feature Requirements
 
-- [x] Create a course
-- [x] Delete a course
-- [x] Create a student
-- [x] Delete a student
-- [x] Add a student to a course
-- [x] Add a student to multiple courses
-- [x] Delete a student from a course
-- [x] Take attendance
-- [x] Attendance types: present, absent, late, excused
-- [x] View course attendance
-- [x] View student attendance
-- [x] View student details
-- [x] View course details
-- [x] View attendance history
-- [x] View student list
-- [x] View course list
+- [] Create a course
+- [] Delete a course
+- [] Create a student
+- [] Delete a student
+- [] Add a student to a course
+- [] Add a student to multiple courses
+- [] Delete a student from a course
+- [] Take attendance
+- [] Attendance types: present, absent, late, excused
+- [] View course attendance
+- [] View student attendance
+- [] View student details
+- [] View course details
+- [] View attendance history
+- [] View student list
+- [] View course list
