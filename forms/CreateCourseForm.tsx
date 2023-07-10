@@ -24,7 +24,11 @@ const formSchema = z.object({
   courseDescription: z.string().min(2).max(2000),
 });
 
-const CreateCourseForm = ({ setOpen }) => {
+interface CreateCourseFormProps {
+  setOpen: (open: boolean) => void;
+}
+
+const CreateCourseForm: React.FC<CreateCourseFormProps> = ({ setOpen }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {

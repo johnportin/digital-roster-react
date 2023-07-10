@@ -23,7 +23,11 @@ const formSchema = z.object({
   userEmail: z.string().email(),
 });
 
-const CreateUserForm = ({ setOpen }) => {
+interface CreateUserFormProps {
+  setOpen: (open: boolean) => void;
+}
+
+const CreateUserForm: React.FC<CreateUserFormProps> = ({ setOpen }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {

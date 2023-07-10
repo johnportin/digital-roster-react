@@ -1,7 +1,7 @@
 'use client';
 
 import CreateCourseForm from '@/forms/CreateCourseForm';
-import CreateUserForm from '@/forms/CreateUser';
+import CreateUserForm from '@/forms/CreateUserForm';
 
 import { Button } from '@/components/ui/button';
 import {
