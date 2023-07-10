@@ -17,8 +17,8 @@ datasource db {
 model Course {
   id          String   @id @default(uuid())
   createdAt   DateTime @default(now())
-  name        String
-  courseCode  Int
+  name        String @unique
+  courseCode  Int @unique
   description String
   User        User[]
 }
