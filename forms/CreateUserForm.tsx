@@ -44,12 +44,7 @@ import {
   CommandItem,
 } from '@/components/ui/command';
 
-const formSchema = z.object({
-  userName: z.string().min(2).max(50),
-  userEmail: z.string().email(),
-  userRole: z.enum(['STUDENT', 'TEACHER', 'ADMIN']),
-  userCourse: z.string().min(2).max(100),
-});
+import userSchema from '@/schemas/user';
 
 interface CreateUserFormProps {
   setOpen: (open: boolean) => void;
@@ -68,8 +63,8 @@ const languages = [
 ] as const;
 
 const CreateUserForm: React.FC<CreateUserFormProps> = ({ setOpen }) => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof userSchema>>({
+    resolver: zodResolver(userSchema),
     defaultValues: {
       userName: 'john',
       userEmail: 'john@email.com',
@@ -78,7 +73,7 @@ const CreateUserForm: React.FC<CreateUserFormProps> = ({ setOpen }) => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>, e: any) {
+  function onSubmit(values: z.infer<typeof userSchema>, e: any) {
     setOpen(false);
     startTransition(() => {
       addUser(values);

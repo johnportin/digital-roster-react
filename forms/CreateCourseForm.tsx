@@ -8,6 +8,8 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 
+import { addCourse } from '@/app/actions/addCourse';
+
 import {
   Form,
   FormControl,
@@ -18,19 +20,15 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 
-const formSchema = z.object({
-  courseName: z.string().min(2).max(50),
-  courseCode: z.coerce.number().int().min(0).max(9999),
-  courseDescription: z.string().min(2).max(2000),
-});
+import courseSchema from '@/schemas/course';
 
 interface CreateCourseFormProps {
   setOpen: (open: boolean) => void;
 }
 
 const CreateCourseForm: React.FC<CreateCourseFormProps> = ({ setOpen }) => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof courseSchema>>({
+    resolver: zodResolver(courseSchema),
     defaultValues: {
       courseName: '',
       courseCode: 0,
@@ -38,11 +36,11 @@ const CreateCourseForm: React.FC<CreateCourseFormProps> = ({ setOpen }) => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>, e: any) {
+  function onSubmit(values: z.infer<typeof courseSchema>, e: any) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     setOpen(false);
-    console.log(values);
+    addCourse(values);
     e.preventDefault();
   }
 
