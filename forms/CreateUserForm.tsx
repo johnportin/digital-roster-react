@@ -18,6 +18,9 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 
+import { addUser } from '@/app/actions/addUser';
+import { startTransition } from 'react';
+
 const formSchema = z.object({
   userName: z.string().min(2).max(50),
   userEmail: z.string().email(),
@@ -31,17 +34,17 @@ const CreateUserForm: React.FC<CreateUserFormProps> = ({ setOpen }) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      userName: '',
-      userEmail: '',
+      userName: 'john',
+      userEmail: 'john@email.com',
     },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>, e: any) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
     setOpen(false);
-    console.log(values);
-    e.preventDefault();
+    startTransition(() => {
+      addUser(values);
+    });
+    // e.preventDefault();
   }
 
   return (
