@@ -20,6 +20,7 @@ model Course {
   name        String   @unique
   code        Int      @unique
   description String
+  slug        String   @unique
   User        User[]
 }
 

@@ -1,4 +1,6 @@
 import { PrismaClient } from '@prisma/client';
+import { slugify } from '@/lib/utils';
+
 const prisma = new PrismaClient();
 
 async function clean() {
