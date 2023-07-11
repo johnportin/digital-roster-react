@@ -93,12 +93,12 @@ const CreateCourseForm: React.FC<CreateCourseFormProps> = ({ setOpen }) => {
           name="courseDescription"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Course Code</FormLabel>
+              <FormLabel>Course Description</FormLabel>
               <FormControl>
                 <Textarea placeholder="Describe your course..." {...field} />
               </FormControl>
               <FormDescription>
-                This is the code for your course.
+                This is the description for your course.
               </FormDescription>
               <FormMessage />
             </FormItem>

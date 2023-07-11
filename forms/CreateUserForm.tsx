@@ -121,7 +121,7 @@ const CreateUserForm: React.FC<CreateUserFormProps> = ({ setOpen }) => {
           name="userRole"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Course Code</FormLabel>
+              <FormLabel>User Role</FormLabel>
               <FormControl>
                 <Select
                   // onValueChange={field.onChange}
@@ -176,7 +176,7 @@ const CreateUserForm: React.FC<CreateUserFormProps> = ({ setOpen }) => {
                       placeholder="Search courses..."
                       className="h-9"
                     />
-                    <CommandEmpty>No framework found.</CommandEmpty>
+                    <CommandEmpty>No course found.</CommandEmpty>
                     <CommandGroup>
                       {languages.map((language) => (
                         <CommandItem
