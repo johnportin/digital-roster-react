@@ -8,6 +8,10 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 
+import { cn } from '@/lib/utils';
+
+import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons';
+
 import {
   Form,
   FormControl,
@@ -20,15 +24,48 @@ import {
 
 import { addUser } from '@/app/actions/addUser';
 import { startTransition } from 'react';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from '@/components/ui/command';
 
 const formSchema = z.object({
   userName: z.string().min(2).max(50),
   userEmail: z.string().email(),
+  userRole: z.enum(['STUDENT', 'TEACHER', 'ADMIN']),
+  userCourse: z.string().min(2).max(100),
 });
 
 interface CreateUserFormProps {
   setOpen: (open: boolean) => void;
 }
+
+const languages = [
+  { label: 'English', value: 'en' },
+  { label: 'French', value: 'fr' },
+  { label: 'German', value: 'de' },
+  { label: 'Spanish', value: 'es' },
+  { label: 'Portuguese', value: 'pt' },
+  { label: 'Russian', value: 'ru' },
+  { label: 'Japanese', value: 'ja' },
+  { label: 'Korean', value: 'ko' },
+  { label: 'Chinese', value: 'zh' },
+] as const;
 
 const CreateUserForm: React.FC<CreateUserFormProps> = ({ setOpen }) => {
   const form = useForm<z.infer<typeof formSchema>>({
@@ -36,6 +73,8 @@ const CreateUserForm: React.FC<CreateUserFormProps> = ({ setOpen }) => {
     defaultValues: {
       userName: 'john',
       userEmail: 'john@email.com',
+      userRole: 'STUDENT',
+      userCourse: '0000 - Course Name',
     },
   });
 
@@ -59,7 +98,7 @@ const CreateUserForm: React.FC<CreateUserFormProps> = ({ setOpen }) => {
               <FormControl>
                 <Input placeholder="John Doe" {...field} />
               </FormControl>
-              <FormDescription>This is the user's name.</FormDescription>
+              <FormDescription>This is the users name.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -77,12 +116,103 @@ const CreateUserForm: React.FC<CreateUserFormProps> = ({ setOpen }) => {
                   {...field}
                 />
               </FormControl>
-              <FormDescription>This is the user's email.</FormDescription>
+              <FormDescription>This is the users email.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
-
+        <FormField
+          control={form.control}
+          name="userRole"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Course Code</FormLabel>
+              <FormControl>
+                <Select
+                  // onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a role" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="STUDENT">Student</SelectItem>
+                    <SelectItem value="TEACHER">Teacher</SelectItem>
+                    <SelectItem value="ADMIN">Admin</SelectItem>
+                  </SelectContent>
+                </Select>
+              </FormControl>
+              <FormDescription>This is the users role.</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="userCourse"
+          render={({ field }) => (
+            <FormItem className="flex flex-col">
+              <FormLabel>Course</FormLabel>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <FormControl>
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      className={cn(
+                        'w-[200px] justify-between',
+                        !field.value && 'text-muted-foreground'
+                      )}
+                    >
+                      {field.value
+                        ? languages.find(
+                            (language) => language.value === field.value
+                          )?.label
+                        : 'Select a course'}
+                      <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent className="w-[200px] p-0">
+                  <Command>
+                    <CommandInput
+                      placeholder="Search courses..."
+                      className="h-9"
+                    />
+                    <CommandEmpty>No framework found.</CommandEmpty>
+                    <CommandGroup>
+                      {languages.map((language) => (
+                        <CommandItem
+                          value={language.value}
+                          key={language.value}
+                          onSelect={(value) => {
+                            form.setValue('userCourse', value);
+                          }}
+                        >
+                          {language.label}
+                          <CheckIcon
+                            className={cn(
+                              'ml-auto h-4 w-4',
+                              language.value === field.value
+                                ? 'opacity-100'
+                                : 'opacity-0'
+                            )}
+                          />
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </Command>
+                </PopoverContent>
+              </Popover>
+              <FormDescription>
+                This is the course the user will be associated with.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <Button type="submit">Submit</Button>
       </form>
     </Form>
