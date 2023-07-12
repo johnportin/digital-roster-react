@@ -16,5 +16,5 @@ export const getBaseUrl = () => {
   // Is this the right production URL?
   return process.env.NODE_ENV === 'development'
     ? 'http://localhost:3000'
-    : process.env.NEXT_PUBLIC_BASE_URL;
+    : 'https://digital-roster-react.vercel.app';
 };

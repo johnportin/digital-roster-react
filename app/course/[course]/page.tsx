@@ -7,7 +7,8 @@ interface PageProps {
 }
 
 async function getData() {
-  const res = await fetch('../../api/course/');
+  const baseUrl = getBaseUrl();
+  const res = await fetch(`${baseUrl}/api/course/`);
 
   if (!res.ok) {
     throw new Error('Something went wrong');
