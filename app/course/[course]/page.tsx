@@ -1,16 +1,45 @@
+import { getBaseUrl } from '@/lib/utils';
+
 interface PageProps {
   params: {
     course: string;
   };
 }
 
-const Page: React.FC<PageProps> = ({
+async function getData() {
+  const baseUrl = getBaseUrl();
+  const res = await fetch(`${baseUrl}/api/course`);
+
+  if (!res.ok) {
+    throw new Error('Something went wrong');
+  }
+
+  return res.json();
+}
+
+const Page: React.FC<PageProps> = async ({
   params,
 }: {
   params: { course: string };
 }) => {
+  const courses = await getData();
   console.log(params);
-  return <div>course: {params.course}</div>;
+  console.log(courses);
+
+  return (
+    <div>
+      <div>param: {params.course}</div>
+      {courses.map((course: any) => {
+        return (
+          <div key={course.id}>
+            <div>{course.name}</div>
+            <div>{course.description}</div>
+            <div>{course.slug}</div>
+          </div>
+        );
+      })}
+    </div>
+  );
 };
 
 export default Page;
