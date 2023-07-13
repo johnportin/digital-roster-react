@@ -23,7 +23,7 @@ import {
 } from '@/components/ui/form';
 
 import { addUser } from '@/app/actions/addUser';
-import { startTransition } from 'react';
+import { startTransition, useEffect, useState } from 'react';
 import {
   Select,
   SelectContent,
@@ -63,6 +63,21 @@ const languages = [
 ] as const;
 
 const CreateUserForm: React.FC<CreateUserFormProps> = ({ setOpen }) => {
+  const [courses, setCourses] = useState(null);
+  const [coursesLoading, setCoursesLoading] = useState(false);
+
+  useEffect(() => {
+    setCoursesLoading(true);
+    fetch('/api/course')
+      .then((res) => res.json())
+      .then((data) => {
+        setCourses(data);
+        setCoursesLoading(false);
+      });
+  }, []);
+
+  console.log(courses);
+
   const form = useForm<z.infer<typeof userSchema>>({
     resolver: zodResolver(userSchema),
     defaultValues: {
@@ -161,11 +176,15 @@ const CreateUserForm: React.FC<CreateUserFormProps> = ({ setOpen }) => {
                         !field.value && 'text-muted-foreground'
                       )}
                     >
-                      {field.value
-                        ? languages.find(
-                            (language) => language.value === field.value
-                          )?.label
+                      {field.value && courses
+                        ? courses.find((course) => course.id === field.value)
+                            ?.name
                         : 'Select a course'}
+                      {/* {field.value
+                        ? courses ??
+                          courses.find((course) => course.id === field.value)
+                            ?.name
+                        : 'Select a course'} */}
                       <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
                   </FormControl>
@@ -178,25 +197,26 @@ const CreateUserForm: React.FC<CreateUserFormProps> = ({ setOpen }) => {
                     />
                     <CommandEmpty>No course found.</CommandEmpty>
                     <CommandGroup>
-                      {languages.map((language) => (
-                        <CommandItem
-                          value={language.value}
-                          key={language.value}
-                          onSelect={(value) => {
-                            form.setValue('userCourse', value);
-                          }}
-                        >
-                          {language.label}
-                          <CheckIcon
-                            className={cn(
-                              'ml-auto h-4 w-4',
-                              language.value === field.value
-                                ? 'opacity-100'
-                                : 'opacity-0'
-                            )}
-                          />
-                        </CommandItem>
-                      ))}
+                      {courses &&
+                        courses.map((course) => (
+                          <CommandItem
+                            value={course.id}
+                            key={course.id}
+                            onSelect={(value) => {
+                              form.setValue('userCourse', value);
+                            }}
+                          >
+                            {course.name}
+                            <CheckIcon
+                              className={cn(
+                                'ml-auto h-4 w-4',
+                                course.value === field.value
+                                  ? 'opacity-100'
+                                  : 'opacity-0'
+                              )}
+                            />
+                          </CommandItem>
+                        ))}
                     </CommandGroup>
                   </Command>
                 </PopoverContent>

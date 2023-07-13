@@ -6,14 +6,14 @@ interface PageProps {
   };
 }
 
-async function getData(courseId: string) {
+async function getData(courseSlug: string) {
   const baseUrl = getBaseUrl();
-  const res = await fetch(`${baseUrl}/api/course/${courseId}`);
+  const res = await fetch(`${baseUrl}/api/course/${courseSlug}`);
 
   if (!res.ok) {
-    throw new Error('Something went wrong');
+    console.log('failed to fetch data');
+    return { message: 'failed to fetch data' };
   }
-
   return res.json();
 }
 
@@ -34,6 +34,7 @@ const Page: React.FC<PageProps> = async ({
         <div>description: {course.description}</div>
         <div>slug: {course.slug}</div>
       </div>
+      {}
     </div>
   );
 };

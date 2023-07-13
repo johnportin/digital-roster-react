@@ -16,6 +16,11 @@ export async function addUser(values: z.infer<typeof userSchema>) {
       data: {
         name: userName,
         email: userEmail,
+        courses: {
+          connect: {
+            id: userCourse,
+          },
+        },
       },
     });
     console.log('user: ', user);

@@ -6,7 +6,7 @@ export async function GET(
   request: Request,
   { params }: { params: { courseSlug: string } }
 ) {
-  const courseSlug = params.courseSlug; // 'a', 'b', or 'c'
+  const courseSlug = params.courseSlug;
   console.log('slug: ', courseSlug);
 
   try {
@@ -15,10 +15,16 @@ export async function GET(
         slug: courseSlug,
       },
       select: {
+        id: true,
         name: true,
         description: true,
         slug: true,
-        code: true,
+        User: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
       },
     });
     return NextResponse.json(data);
