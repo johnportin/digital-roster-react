@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 
-import { cn } from '@/lib/utils';
+import { cn, getBaseUrl } from '@/lib/utils';
 
 import { CaretSortIcon, CheckIcon } from '@radix-ui/react-icons';
 
@@ -66,16 +66,17 @@ const languages = [
 const CreateUserForm: React.FC<CreateUserFormProps> = ({ setOpen }) => {
   const [courses, setCourses] = useState<Course[]>([]);
   const [coursesLoading, setCoursesLoading] = useState(false);
+  const baseUrl = getBaseUrl();
 
   useEffect(() => {
     setCoursesLoading(true);
-    fetch('/api/course')
+    fetch(`${baseUrl}/api/course`)
       .then((res) => res.json())
       .then((data) => {
         setCourses(data);
         setCoursesLoading(false);
       });
-  }, []);
+  }, [baseUrl]);
 
   console.log(courses);
 

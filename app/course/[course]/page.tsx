@@ -1,4 +1,5 @@
 import { getBaseUrl } from '@/lib/utils';
+import { prisma } from '@/prisma/db';
 import { Course } from '@prisma/client';
 
 interface PageProps {
@@ -20,12 +21,14 @@ async function getData(courseSlug: string) {
 
 export async function generateStaticParams() {
   const baseUrl = getBaseUrl();
-  const courses = await fetch(`${baseUrl}/api/course`).then((res) =>
-    res.json()
-  );
+  console.log('***baseURL:', baseUrl);
+  const courses = await prisma.course.findMany();
+  // const courses = await fetch(`${baseUrl}/api/course`).then((res) =>
+  //   res.json()
+  // );
 
   return courses.map((course: Course) => ({
-    slug: course.slug,
+    course: course.slug,
   }));
 }
 
