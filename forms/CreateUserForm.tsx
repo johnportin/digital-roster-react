@@ -51,18 +51,6 @@ interface CreateUserFormProps {
   setOpen: (open: boolean) => void;
 }
 
-const languages = [
-  { label: 'English', value: 'en' },
-  { label: 'French', value: 'fr' },
-  { label: 'German', value: 'de' },
-  { label: 'Spanish', value: 'es' },
-  { label: 'Portuguese', value: 'pt' },
-  { label: 'Russian', value: 'ru' },
-  { label: 'Japanese', value: 'ja' },
-  { label: 'Korean', value: 'ko' },
-  { label: 'Chinese', value: 'zh' },
-] as const;
-
 const CreateUserForm: React.FC<CreateUserFormProps> = ({ setOpen }) => {
   const [courses, setCourses] = useState<Course[]>([]);
   const [coursesLoading, setCoursesLoading] = useState(false);
@@ -78,7 +66,7 @@ const CreateUserForm: React.FC<CreateUserFormProps> = ({ setOpen }) => {
       });
   }, [baseUrl]);
 
-  console.log(courses);
+  // console.log(courses);
 
   const form = useForm<z.infer<typeof userSchema>>({
     resolver: zodResolver(userSchema),

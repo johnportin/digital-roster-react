@@ -1,3 +1,5 @@
+'use server';
+
 import { prisma } from '@/prisma/db';
 import { NextResponse } from 'next/server';
 

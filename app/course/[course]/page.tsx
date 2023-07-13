@@ -27,8 +27,6 @@ export async function generateStaticParams() {
     res.json()
   );
 
-  console.log('***courses:', courses);
-
   return courses.map((course: Course) => ({
     course: course.slug,
   }));
