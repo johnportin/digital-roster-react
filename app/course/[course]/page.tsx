@@ -22,10 +22,10 @@ async function getData(courseSlug: string) {
 export async function generateStaticParams() {
   const baseUrl = getBaseUrl();
   console.log('***baseURL:', baseUrl);
-  // const courses = await prisma.course.findMany();
-  const courses = await fetch(`${baseUrl}/api/course`).then((res) =>
-    res.json()
-  );
+  const courses = await prisma.course.findMany();
+  // const courses = await fetch(`${baseUrl}/api/course`).then((res) =>
+  //   res.json()
+  // );
 
   return courses.map((course: Course) => ({
     course: course.slug,
