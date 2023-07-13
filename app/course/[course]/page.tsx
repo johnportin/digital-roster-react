@@ -6,9 +6,9 @@ interface PageProps {
   };
 }
 
-async function getData() {
+async function getData(courseId: string) {
   const baseUrl = getBaseUrl();
-  const res = await fetch(`${baseUrl}/api/course/`);
+  const res = await fetch(`${baseUrl}/api/course/${courseId}`);
 
   if (!res.ok) {
     throw new Error('Something went wrong');
@@ -22,22 +22,18 @@ const Page: React.FC<PageProps> = async ({
 }: {
   params: { course: string };
 }) => {
-  const courses = await getData();
   console.log(params);
-  console.log(courses);
+  const course = await getData(params.course);
+  console.log(course);
 
   return (
     <div>
       <div>param: {params.course}</div>
-      {courses.map((course: any) => {
-        return (
-          <div key={course.id}>
-            <div>{course.name}</div>
-            <div>{course.description}</div>
-            <div>{course.slug}</div>
-          </div>
-        );
-      })}
+      <div key={course.id}>
+        <div>name: {course.name}</div>
+        <div>description: {course.description}</div>
+        <div>slug: {course.slug}</div>
+      </div>
     </div>
   );
 };
