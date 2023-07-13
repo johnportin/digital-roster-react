@@ -26,7 +26,7 @@ const Page: React.FC<PageProps> = async ({
   const course = await getData(params.course);
   console.log(course);
 
-  return (
+  return course ? (
     <div>
       <div>param: {params.course}</div>
       <div key={course.id}>
@@ -36,6 +36,8 @@ const Page: React.FC<PageProps> = async ({
       </div>
       {}
     </div>
+  ) : (
+    <div>failed to fetch data</div>
   );
 };
 
