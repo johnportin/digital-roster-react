@@ -64,7 +64,7 @@ const languages = [
 ] as const;
 
 const CreateUserForm: React.FC<CreateUserFormProps> = ({ setOpen }) => {
-  const [courses, setCourses] = useState(null);
+  const [courses, setCourses] = useState<Course[]>([]);
   const [coursesLoading, setCoursesLoading] = useState(false);
 
   useEffect(() => {
