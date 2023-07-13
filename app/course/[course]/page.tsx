@@ -1,4 +1,5 @@
 import { getBaseUrl } from '@/lib/utils';
+import { Course } from '@prisma/client';
 
 interface PageProps {
   params: {
@@ -15,6 +16,17 @@ async function getData(courseSlug: string) {
     return { message: 'failed to fetch data' };
   }
   return res.json();
+}
+
+export async function generateStaticParams() {
+  const baseUrl = getBaseUrl();
+  const courses = await fetch(`${baseUrl}/api/course`).then((res) =>
+    res.json()
+  );
+
+  return courses.map((course: Course) => ({
+    slug: course.slug,
+  }));
 }
 
 const Page: React.FC<PageProps> = async ({
