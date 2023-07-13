@@ -1,11 +1,11 @@
-import { User } from "@prisma/client";
+import { User } from '@prisma/client';
 
 interface FormProps {
-    users: User[];
+  users: User[];
 }
 
 const ConnectUserCourse = () => {
-    return (  );
-}
- 
+  return <div>blank</div>;
+};
+
 export default ConnectUserCourse;

@@ -45,6 +45,7 @@ import {
 } from '@/components/ui/command';
 
 import userSchema from '@/schemas/user';
+import { Course } from '@prisma/client';
 
 interface CreateUserFormProps {
   setOpen: (open: boolean) => void;
@@ -177,8 +178,9 @@ const CreateUserForm: React.FC<CreateUserFormProps> = ({ setOpen }) => {
                       )}
                     >
                       {field.value && courses
-                        ? courses.find((course) => course.id === field.value)
-                            ?.name
+                        ? courses.find(
+                            (course: Course) => course.id === field.value
+                          )?.name
                         : 'Select a course'}
                       {/* {field.value
                         ? courses ??
@@ -198,7 +200,7 @@ const CreateUserForm: React.FC<CreateUserFormProps> = ({ setOpen }) => {
                     <CommandEmpty>No course found.</CommandEmpty>
                     <CommandGroup>
                       {courses &&
-                        courses.map((course) => (
+                        courses.map((course: Course) => (
                           <CommandItem
                             value={course.id}
                             key={course.id}
@@ -210,7 +212,7 @@ const CreateUserForm: React.FC<CreateUserFormProps> = ({ setOpen }) => {
                             <CheckIcon
                               className={cn(
                                 'ml-auto h-4 w-4',
-                                course.value === field.value
+                                course.id === field.value
                                   ? 'opacity-100'
                                   : 'opacity-0'
                               )}
