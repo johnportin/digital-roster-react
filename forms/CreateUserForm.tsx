@@ -83,7 +83,6 @@ const CreateUserForm: React.FC<CreateUserFormProps> = ({ setOpen }) => {
     startTransition(() => {
       addUser(values);
     });
-    // e.preventDefault();
   }
 
   return (
