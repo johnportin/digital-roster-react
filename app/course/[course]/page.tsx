@@ -1,3 +1,5 @@
+'use server';
+
 import { getBaseUrl } from '@/lib/utils';
 import { prisma } from '@/prisma/db';
 import { Course } from '@prisma/client';
@@ -14,7 +16,7 @@ async function getData(courseSlug: string) {
 
   if (!res.ok) {
     console.log('failed to fetch data');
-    return { message: 'failed to fetch data' };
+    throw new Error('failed to fetch data');
   }
   return res.json();
 }
@@ -48,10 +50,10 @@ export async function generateStaticParams() {
   const baseUrl = getBaseUrl();
   console.log('***baseURL:', baseUrl);
   // const courses = await prisma.course.findMany();
-  const courses = await fetch(`${baseUrl}/api/course`).then((res) =>
+  const courses = await fetch(`${baseUrl}/api/course/`).then((res) =>
     res.json()
   );
-
+  console.log('***courses:', courses);
   return courses.map((course: Course) => ({
     courseSlug: course.slug,
   }));
