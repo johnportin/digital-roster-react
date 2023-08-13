@@ -3,6 +3,7 @@
 import { getBaseUrl } from '@/lib/utils';
 import { useSession } from 'next-auth/react';
 import useSWR from 'swr';
+import { Course } from '@prisma/client';
 
 async function getUserData(userId: string) {
   const baseURL = getBaseUrl();
@@ -15,7 +16,7 @@ async function getUserData(userId: string) {
   return res.json();
 }
 
-const fetcher = (...args) => fetch(...args).then((res) => res.json());
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function DashboardLayout({
   children,
@@ -44,7 +45,7 @@ function SideBar() {
   console.log(data);
   return (
     <div>
-      {data?.courses?.map((course) => {
+      {data?.courses?.map((course: Course) => {
         return (
           <div key={course.id}>
             <p>{course.name}</p>

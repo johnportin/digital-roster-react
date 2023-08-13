@@ -2,7 +2,7 @@
 
 import { getBaseUrl } from '@/lib/utils';
 import { prisma } from '@/prisma/db';
-import { Course } from '@prisma/client';
+import { Course, User } from '@prisma/client';
 
 interface PageProps {
   params: {
@@ -37,7 +37,7 @@ const Page: React.FC<PageProps> = async ({
         <div>name: {currentCourse.name}</div>
         <div>description: {currentCourse.description}</div>
         <div>slug: {currentCourse.slug}</div>
-        {currentCourse?.User?.map((user) => {
+        {currentCourse?.User?.map((user: User) => {
           return (
             <div key={user.id}>
               <div>name: {user.name}</div>
@@ -55,7 +55,6 @@ const Page: React.FC<PageProps> = async ({
 export async function generateStaticParams() {
   const baseUrl = getBaseUrl();
   console.log('***baseURL:', baseUrl);
-  // const courses = await prisma.course.findMany();
   const courses = await fetch(`${baseUrl}/api/course/`).then((res) =>
     res.json()
   );
