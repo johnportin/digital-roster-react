@@ -41,16 +41,16 @@ function SideBar() {
     '/api/user/353dffd5-8a67-481e-92bf-45622f4bb0c1',
     fetcher
   );
+  console.log(data);
   return (
-    <pre>
-      {JSON.stringify(
-        {
-          session,
-          data,
-        },
-        null,
-        2
-      )}
-    </pre>
+    <div>
+      {data?.courses?.map((course) => {
+        return (
+          <div key={course.id}>
+            <p>{course.name}</p>
+          </div>
+        );
+      })}
+    </div>
   );
 }
