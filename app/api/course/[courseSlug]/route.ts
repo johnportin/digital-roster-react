@@ -7,10 +7,11 @@ export async function GET(
   { params }: { params: { courseSlug: string } }
 ) {
   const courseSlug = params.courseSlug;
+  console.log('params: ', params);
   console.log('slug: ', courseSlug);
 
   try {
-    const data = await prisma.course.findUnique({
+    const res = await prisma.course.findUnique({
       where: {
         slug: courseSlug,
       },
@@ -27,7 +28,7 @@ export async function GET(
         },
       },
     });
-    return NextResponse.json(data);
+    return NextResponse.json(res);
   } catch (err) {
     console.error(err);
     return NextResponse.error();

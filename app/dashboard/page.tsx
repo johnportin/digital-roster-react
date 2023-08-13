@@ -13,12 +13,24 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { useState } from 'react';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 const DashboardPage = () => {
+  const { data: session, status } = useSession();
   // This open close state should really be put into a submit function which is
   // passed to the form component. Then we need to take care of passing the form schema type.
   const [courseOpen, setCourseOpen] = useState(false);
   const [userOpen, setUserOpen] = useState(false);
+  const router = useRouter();
+
+  if (status === 'loading') {
+    return <div>Loading...</div>;
+  }
+
+  if (status === 'unauthenticated') {
+    router.push('/');
+  }
 
   return (
     <div className="flex flex-col w-full items-center">

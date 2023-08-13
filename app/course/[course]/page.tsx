@@ -6,7 +6,7 @@ import { Course } from '@prisma/client';
 
 interface PageProps {
   params: {
-    courseSlug: string;
+    course: string;
   };
 }
 
@@ -14,7 +14,7 @@ async function getData(courseSlug: string) {
   const baseUrl = getBaseUrl();
   const res = await fetch(`${baseUrl}/api/course/${courseSlug}`);
 
-  if (!res.ok) {
+  if (!res?.ok) {
     console.log('failed to fetch data');
     throw new Error('failed to fetch data');
   }
@@ -24,20 +24,26 @@ async function getData(courseSlug: string) {
 const Page: React.FC<PageProps> = async ({
   params,
 }: {
-  params: { courseSlug: string };
+  params: { course: string };
 }) => {
-  const { courseSlug } = params;
+  const { course } = params;
+  console.log('***params:', params);
+  const currentCourse = await getData(course);
+  console.log('currentCourse:', currentCourse);
 
-  console.log(params);
-  const course = await getData(courseSlug);
-  console.log(course);
-
-  return course ? (
+  return currentCourse ? (
     <div>
-      <div key={course.id}>
-        <div>name: {course.name}</div>
-        <div>description: {course.description}</div>
-        <div>slug: {course.slug}</div>
+      <div key={currentCourse.id}>
+        <div>name: {currentCourse.name}</div>
+        <div>description: {currentCourse.description}</div>
+        <div>slug: {currentCourse.slug}</div>
+        {currentCourse?.User?.map((user) => {
+          return (
+            <div key={user.id}>
+              <div>name: {user.name}</div>
+            </div>
+          );
+        })}
       </div>
       {}
     </div>
